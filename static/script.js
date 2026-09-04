@@ -24,6 +24,7 @@ const predictionReasons = document.getElementById("prediction-reasons");
 const matchedSummary = document.getElementById("matched-summary");
 let predictionExplanation = [];
 const restartBtn = document.getElementById("restart-btn");
+restartBtn.addEventListener("click", restartApp);
 
 
 let yesSymptoms = [];
