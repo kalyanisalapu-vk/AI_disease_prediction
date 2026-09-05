@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Disease Predictor</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <!-- HEADER -->
+        <header class="header">
+
+            <div class="brand">
+
+                <div class="logo">
+                    ♡
+                </div>
+
+                <div>
+                    <h1>AI Disease Predictor</h1>
+                    <p>AI-powered symptom analysis</p>
+                </div>
+
+            </div>
+
+            <div class="guidance">
+                🛡 Preliminary guidance only
+            </div>
+
+        </header>
+
+
+        <!-- MAIN LAYOUT -->
+        <div class="main-layout">
+
+            <!-- LEFT SIDE -->
+            <section class="main-card">
+
+
+                <!-- SEARCH SECTION -->
+                <div id="search-section">
+
+                    <div class="step-title">
+
+                        <span class="step-number">
+                            1
+                        </span>
+
+                        <h2>
+                            Start with one symptom
+                        </h2>
+
+                    </div>
+
+
+                    <div class="search-box">
+
+                        <span class="search-icon">
+                            ⌕
+                        </span>
+
+                        <input
+                            type="text"
+                            id="symptom-search"
+                            placeholder="Search your first symptom..."
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <!-- Matching symptoms -->
+                    <div id="search-results"></div>
+
+
+                    <p class="help-text">
+                        Type something like "fever", "cough" or "headache" —
+                        the AI takes it from there.
+                    </p>
+
+                </div>
+
+
+
+                <!-- QUESTION SECTION -->
+                <div id="question-section" class="hidden">
+
+                    <!-- Previous answers -->
+                    <div id="history"></div>
+
+
+                    <div class="ai-question">
+
+                        <div class="ai-icon">
+                            ✦
+                        </div>
+
+                        <div>
+
+                            <p class="ai-label">
+                                AI IS ASKING
+                            </p>
+
+                            <h2 id="question-text">
+                                Do you also have Fever?
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="answer-buttons">
+
+                        <button id="yes-btn" class="yes-btn">
+                            YES ✓
+                        </button>
+
+                        <button id="no-btn" class="no-btn">
+                            NO ✕
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ANALYZING SECTION -->
+                <div id="analyzing-section"
+                     class="hidden analyzing">
+
+                    <div class="loader"></div>
+
+                    <h2 id="analyzing-text">
+                        Analyzing your symptoms...
+                    </h2>
+
+                    <p>
+                        This only takes a moment.
+                    </p>
+
+                </div>
+
+
+
+                <!-- RESULT SECTION -->
+                <div id="result-section" class="hidden">
+
+
+                    <!-- RESULT CARD -->
+                    <div class="result-card">
+
+                        <p class="complete">
+                            ✓ Analysis Complete
+                        </p>
+
+
+                        <p class="prediction-label">
+                            PREDICTED DISEASE
+                        </p>
+
+
+                        <h2 id="disease-result">
+                            Disease Name
+                        </h2>
+
+
+                        <!-- MATCH SCORE -->
+                        <div class="match-score-section">
+
+                            <div class="match-score-header">
+
+                                <span>
+                                    Symptom Match Score
+                                </span>
+
+                                <strong id="match-percentage">
+                                    0%
+                                </strong>
+
+                            </div>
+
+
+                            <div class="match-progress-bar">
+
+                                <div id="match-progress-fill"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- SYMPTOMS CONSIDERED -->
+                    <div class="symptoms-considered">
+
+                        <h3>
+                            Symptoms considered
+                        </h3>
+
+                        <div id="result-symptoms"></div>
+
+                    </div>
+                    
+                    <button id="journey-btn" class="journey-btn">
+                            🧠 View Analysis Journey
+                    </button>
+
+
+                    <!-- WARNING -->
+                    <div class="warning-card">
+
+                        <h3>
+                            ⚠ Doctor Consultation Recommended
+                        </h3>
+
+                        <p>
+                            This result is an AI-based preliminary prediction
+                            and is not a medical diagnosis. Please consult a
+                            qualified doctor for proper medical advice.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- RESTART -->
+                    <button id="restart-btn"
+                            class="restart-btn">
+
+                        ↻ Start Again
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- RIGHT SIDE STATUS -->
+            <aside class="status-card">
+
+                <h2>
+                    〽 Analysis Status
+                </h2>
+
+
+                <div class="status-grid">
+
+                    <div class="status-box">
+
+                        <span id="answered-count">
+                            0
+                        </span>
+
+                        <p>
+                            Symptoms answered
+                        </p>
+
+                    </div>
+
+
+                    <div class="status-box conditions">
+
+                        <span id="conditions-count">
+                            0
+                        </span>
+
+                        <p>
+                            Possible conditions
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- POSSIBLE CONDITIONS -->
+                <div class="possible-conditions-section">
+
+                    <h3>
+                        POSSIBLE CONDITIONS
+                    </h3>
+
+                    <div id="possible-conditions">
+                        <p class="empty-text">
+                            No conditions identified yet.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- PROGRESS -->
+                <div class="progress-container">
+
+                    <div class="progress-bar">
+
+                        <div id="progress-fill"></div>
+
+                    </div>
+
+                    <p id="status-text">
+                        Waiting for your first symptom
+                    </p>
+
+                </div>
+                <div class="prediction-explanation">
+                    <h3>Why this prediction?</h3>
+
+                    <div id="prediction-reasons"></div>
+
+                    <p id="matched-summary"></p>
+                </div>
+
+
+                
+
+            </aside>
+
+        </div>
+
+
+
+        <!-- FOOTER -->
+        <footer>
+            Educational project — not a substitute for professional
+            medical advice.
+        </footer>
+
+    </main>
+    <!-- ANALYSIS JOURNEY MODAL -->
+    <div id="journey-modal" class="journey-modal hidden">
+
+        <div class="journey-modal-content">
+
+            <div class="journey-header">
+                <div>
+                    <p class="journey-label">
+                        AI REASONING
+
+                    </p>
+                    <h2>🧠 How the AI analyzed your symptoms</h2>
+                </div>
+
+                <button id="close-journey" class="close-journey">
+                ✕
+                </button>
+            </div>
+
+            <p class="journey-description">
+                This shows how your answers were processed step by step.
+            </p>
+
+            <div id="journey-timeline"></div>
+
+        </div>
+
+    </div>
+
+
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
